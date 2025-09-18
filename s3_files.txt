@@ -1,1 +1,11 @@
-s3://bidgely-log-backup-us-west-2/logs-compressed/env=nonprodqa/component=aggregationMessageProcessor/dt=2025-08-26-23/aggregationMessageProcessor.log.2025-08-26-23.1.1756184146.996
+s3://bidgely-log-backup-us-west-2/logs-compressed/env=nonprodqa/component=sms/dt=2025-09-17-23/sms.log.2025-09-17-23.1.1758153686.267
+s3://bidgely-log-backup-us-west-2/logs-compressed/env=nonprodqa/component=sms/dt=2025-09-17-13/sms.log-1758117293-i-0566e2ddfb46a87df-
+s3://bidgely-log-backup-us-west-2/logs-compressed/env=nonprodqa/component=sms/dt=2025-09-16-23/sms.log.2025-09-16-23.1.1758067206.205
+s3://bidgely-log-backup-us-west-2/logs-compressed/env=nonprodqa/component=api-server-nonprodqa/dt=2025-09-16-13/api-server-nonprodqa-694494dc7-bmpqd-localhost_access.log-objectUcXbsdQG
+s3://bidgely-log-backup-us-west-2/logs-compressed/env=nonprodqa/component=api-server-nonprodqa/dt=2025-09-16-13/api-server-nonprodqa-694494dc7-mct27-localhost_access.log-objectOLt7Q5ev
+s3://bidgely-log-backup-us-west-2/logs-compressed/env=nonprodqa/component=sms/dt=2025-09-16-10/sms.log-1758018859-i-062ba946206388711-
+s3://bidgely-log-backup-us-west-2/logs-compressed/env=nonprodqa/component=sms/dt=2025-09-15-23/sms.log.2025-09-15-23.1.1757980805.862
+s3://bidgely-log-backup-us-west-2/logs-compressed/env=nonprodqa/component=sms/dt=2025-09-15-15/sms.log-1757950199-i-05741995cc7dbc3c7-
+s3://bidgely-log-backup-us-west-2/logs-compressed/env=nonprodqa/component=sms/dt=2025-09-15-08/sms.log-1757924708-i-0ed27bea60aa330af-
+s3://bidgely-log-backup-us-west-2/logs-compressed/env=nonprodqa/component=automation-adhoc/dt=2025-09-15-02/automationService-i-057cb1f9931b6e553.log
+s3://bidgely-log-backup-us-west-2/logs-compressed/env=nonprodqa/component=automationService/dt=2025-09-15-02/automationService.log-1757903323-i-057cb1f9931b6e553--10.0.12.37
