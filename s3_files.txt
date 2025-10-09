@@ -1,3 +1,3 @@
-s3://bidgely-log-backup-us-west-2/logs/env=nonprodqa/component=emailer/dt=2025-10-08-23/
-s3://bidgely-log-backup-us-west-2/logs/env=nonprodqa/component=emailer/dt=2025-10-08-23/
-s3://bidgely-log-backup-us-west-2/logs/env=nonprodqa/component=emailer/dt=2025-10-08-23/
+s3://bidgely-log-backup-us-west-2/logs-compressed/env=nonprodqa/component=emailer/dt=2025-10-08-23/emailer.log.2025-10-08-23.1.1759968005.609
+s3://bidgely-log-backup-us-west-2/logs-compressed/env=nonprodqa/component=emailer/dt=2025-10-08-23/emailer.log.2025-10-08-23.1.1759968006.534
+s3://bidgely-log-backup-us-west-2/logs-compressed/env=nonprodqa/component=emailer/dt=2025-10-08-23/emailer.log.2025-10-08-23.1.1759968008.630
