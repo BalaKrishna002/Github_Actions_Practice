@@ -2,14 +2,16 @@ name: SQS Stuck Messages Report
 
 on:
   schedule:
-    # 9:00 AM IST = 03:30 UTC
+  # 9:00 AM IST = 03:30 UTC
     - cron: '30 3 * * *'
-    # Manual trigger
+
+  # Manual trigger
   workflow_dispatch:
     inputs:
       note:
         description: 'Optional note for manual run'
         required: false
+
 
 jobs:
   send_sqs_report:
@@ -34,6 +36,7 @@ jobs:
           EMAIL_USER: ${{ secrets.GMAIL_USERNAME }}
           EMAIL_PASS: ${{ secrets.GMAIL_APP_PASSWORD }}
         run: |
+          python <<EOF
           import boto3
           import pandas as pd
           import yagmail
@@ -53,7 +56,6 @@ jobs:
           start_utc = start_time.astimezone(pytz.UTC)
           end_utc = end_time.astimezone(pytz.UTC)
 
-          # List of SQS queues to check
           queues = [
               'https://sqs.us-west-2.amazonaws.com/189675173661/AggregationReadyUsersPriority-nonprodqa-01'
           ]
@@ -65,14 +67,13 @@ jobs:
           for queue_url in queues:
               queue_name = queue_url.split('/')[-1]
 
-              # Get metrics: NumberOfMessagesSent, NumberOfMessagesReceived
               sent_metric = cw.get_metric_statistics(
                   Namespace='AWS/SQS',
                   MetricName='NumberOfMessagesSent',
                   Dimensions=[{'Name':'QueueName', 'Value': queue_name}],
                   StartTime=start_utc,
                   EndTime=end_utc,
-                  Period=3600*4,  # aggregate over 4 hours
+                  Period=3600*4,
                   Statistics=['Sum']
               )
 
@@ -97,16 +98,15 @@ jobs:
                   'Messages Stuck': messages_stuck
               })
 
-          # Create DataFrame and HTML table
           df = pd.DataFrame(report)
           html_table = df.to_html(index=False)
 
-          # Send Email
           yag = yagmail.SMTP(user=os.environ['EMAIL_USER'], password=os.environ['EMAIL_PASS'])
           yag.send(
               to=os.environ['EMAIL_USER'],
               subject='SQS Stuck Messages Report (1:00-5:00 AM IST)',
               contents=f"<h3>SQS Messages Stuck Report (1:00-5:00 AM IST)</h3>{html_table}"
           )
-
           print("Email sent successfully!")
+          EOF
+
