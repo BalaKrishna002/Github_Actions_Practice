@@ -4,6 +4,12 @@ on:
   schedule:
     # 9:00 AM IST = 03:30 UTC
     - cron: '30 3 * * *'
+    # Manual trigger
+  workflow_dispatch:
+    inputs:
+      note:
+        description: 'Optional note for manual run'
+        required: false
 
 jobs:
   send_sqs_report:
