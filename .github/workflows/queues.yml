@@ -1,9 +1,9 @@
 name: SQS Stuck Messages Report
 
 on:
-  schedule:
+  #schedule:
   # 9:00 AM IST = 03:30 UTC
-    - cron: '30 3 * * *'
+    #- cron: '30 3 * * *'
 
   # Manual trigger
   workflow_dispatch:
