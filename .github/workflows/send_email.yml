@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      note:
+        description: 'Optional note for manual run'
+        required: false
 
 jobs:
   build_and_send_email:
