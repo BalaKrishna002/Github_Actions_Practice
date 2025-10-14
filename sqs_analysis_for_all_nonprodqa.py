@@ -247,7 +247,7 @@ def write_html(results_by_day, start_date, end_date):
     <div class="container">
         <h1>{title}</h1>
         <div class="summary">
-            <strong>Report Generated:</strong> {datetime.now().strftime('%d-%m-%Y %H:%M:%S IST')}<br>
+            <strong>Report Generated:</strong> {datetime.now(pytz.timezone('Asia/Kolkata')).strftime('%d-%m-%Y %H:%M:%S IST')}<br>
             <strong>Time Windows:</strong><br>
             • Window 1: 01:30 - 07:30 IST<br>
             • Window 2: 07:30 - 09:00 IST
@@ -324,7 +324,7 @@ def write_email_html(results_by_day, start_date, end_date):
     <div style="max-width: 1200px; margin: 0 auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
         <h1 style="color: #333; text-align: center; margin-bottom: 30px;">{title}</h1>
         <div style="background-color: #e9ecef; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
-            <strong>Report Generated:</strong> {datetime.now().strftime('%d-%m-%Y %H:%M:%S IST')}<br>
+            <strong>Report Generated:</strong> {datetime.now(pytz.timezone('Asia/Kolkata')).strftime('%d-%m-%Y %H:%M:%S IST')}<br>
             <strong>Time Windows:</strong><br>
             • Window 1: 01:30 - 07:30 IST<br>
             • Window 2: 07:30 - 09:00 IST
