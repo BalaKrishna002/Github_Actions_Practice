@@ -89,3 +89,10 @@ jobs:
         name: sqs-report-html
         path: sqs_report_*.html
         retention-days: 30
+
+    - name: Clean up HTML files
+      run: |
+        echo "Cleaning up generated HTML files..."
+        rm -f sqs_report_*.html
+        rm -f email_content.html
+        echo "HTML files deleted successfully"
