@@ -56,49 +56,20 @@ jobs:
           # Default: run for today
           python sqs_analysis_for_all_nonprodqa.py
         fi
-        
-        # Find the generated HTML file
-        HTML_FILE=$(ls sqs_report_*.html | head -1)
-        echo "html_file=$HTML_FILE" >> $GITHUB_OUTPUT
-        
-        # Extract the HTML table content (everything inside the container div)
-        python3 << 'EOF'
-        import re
-        import os
-        
-        html_file = os.environ.get('HTML_FILE', '')
-        if not html_file:
-            html_files = [f for f in os.listdir('.') if f.startswith('sqs_report_') and f.endswith('.html')]
-            html_file = html_files[0] if html_files else ''
-        
-        if html_file:
-            with open(html_file, 'r', encoding='utf-8') as f:
-                content = f.read()
-            
-            # Extract content inside the container div
-            match = re.search(r'<div class="container">(.*?)</div>\s*</body>', content, re.DOTALL)
-            if match:
-                table_content = match.group(1).strip()
-                
-                # Create email-friendly HTML with inline styles
-                email_html = f'''
-        <div style="font-family: Arial, sans-serif; max-width: 1200px; margin: 0 auto; background-color: white; padding: 20px;">
-        {table_content}
-        </div>
-        '''
-                
-                # Save to file for email
-                with open('email_content.html', 'w', encoding='utf-8') as f:
-                    f.write(email_html)
-                
-                print(f"Email content extracted from {html_file}")
-            else:
-                print("Could not extract table content")
-        else:
-            print("No HTML file found")
-        EOF
-      env:
-        HTML_FILE: ${{ steps.generate_report.outputs.html_file }}
+
+        # The Python script now generates email-friendly HTML automatically
+        # Find the email-friendly HTML file
+        EMAIL_HTML_FILE=$(ls sqs_report_email_*.html | head -1)
+        echo "email_html_file=$EMAIL_HTML_FILE" >> $GITHUB_OUTPUT
+
+        # Copy the email HTML file to the expected location
+        if [ -f "$EMAIL_HTML_FILE" ]; then
+          cp "$EMAIL_HTML_FILE" email_content.html
+          echo "Email content ready: $EMAIL_HTML_FILE"
+        else
+          echo "Error: No email HTML file found"
+          exit 1
+        fi
         
     - name: Send Email
       uses: dawidd6/action-send-mail@v3
@@ -113,7 +84,7 @@ jobs:
         html_body: file://email_content.html
         
     - name: Upload HTML Report as Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: sqs-report-html
         path: sqs_report_*.html
