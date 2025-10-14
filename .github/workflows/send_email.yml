@@ -43,5 +43,5 @@ jobs:
             <h3>File Names</h3>
             ${{ steps.file_report.outputs.html_list }}
 
-          to: balakrishnam@bidgely.com
+          to: balakrishnam@bidgely.com, makineni8008@gmail.com
           from: GitHub Actions <${{ secrets.GMAIL_USERNAME }}>
