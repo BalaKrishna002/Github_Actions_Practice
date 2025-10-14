@@ -1,9 +1,6 @@
 name: Email File Report on Main Push
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
     inputs:
       note:
@@ -12,7 +9,6 @@ on:
 
 jobs:
   build_and_send_email:
-    if: false
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
