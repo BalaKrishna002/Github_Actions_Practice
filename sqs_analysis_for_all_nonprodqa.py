@@ -402,6 +402,34 @@ if __name__ == "__main__":
         results = get_sqs_metrics(queues, d, ist_tz)
         results_by_day[d] = results
 
+    # Debug: Print summary of results
+    total_queues_processed = 0
+    for day, results in results_by_day.items():
+        queue_count = len(results)
+        total_queues_processed += queue_count
+        print(f"Day {day.strftime('%d-%m-%Y')}: {queue_count} queues processed")
+
+        # Print first few and last few queue names for verification
+        if queue_count > 0:
+            queue_names = [r['Queue'] for r in results]
+            print(f"  First 3 queues: {queue_names[:3]}")
+            print(f"  Last 3 queues: {queue_names[-3:]}")
+
+    print(f"\nTotal queues processed across all days: {total_queues_processed}")
+
     write_html(results_by_day, start_date, end_date)
-    write_email_html(results_by_day, start_date, end_date)
+    email_file = write_email_html(results_by_day, start_date, end_date)
+
+    # Debug: Verify email file content
+    if email_file:
+        import os
+        file_size = os.path.getsize(email_file)
+        print(f"Email HTML file size: {file_size} bytes")
+
+        # Count queues in email file
+        with open(email_file, 'r', encoding='utf-8') as f:
+            email_content = f.read()
+            queue_count_in_email = email_content.count('<td style="border: 1px solid #ddd; padding: 8px; font-weight: bold; color: #333;">')
+            print(f"Queues found in email HTML: {queue_count_in_email}")
+
     print("\nAll done ✅")
