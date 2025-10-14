@@ -118,13 +118,6 @@ jobs:
         to: balakrishnam@bidgely.com
         from: ${{ secrets.GMAIL_USERNAME }}
         html_body: file://email_content.html
-        
-    - name: Upload HTML Report as Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: sqs-report-html
-        path: sqs_report_*.html
-        retention-days: 30
 
     - name: Clean up HTML files
       run: |
