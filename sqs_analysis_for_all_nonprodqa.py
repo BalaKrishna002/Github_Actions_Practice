@@ -178,63 +178,50 @@ def write_html(results_by_day, start_date, end_date):
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title}</title>
     <style>
-        * {{
-            box-sizing: border-box;
-        }}
         body {{
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 10px;
+            margin: 10px;
             background-color: #f5f5f5;
-            line-height: 1.4;
         }}
         .container {{
             max-width: 1200px;
             margin: 0 auto;
             background-color: white;
-            padding: 15px;
+            padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }}
         h1 {{
             color: #333;
             text-align: center;
-            margin-bottom: 20px;
-            font-size: 1.8rem;
+            margin-bottom: 30px;
         }}
         h2 {{
             color: #555;
             border-bottom: 2px solid #007bff;
             padding-bottom: 5px;
-            margin-top: 25px;
-            font-size: 1.3rem;
+            margin-top: 30px;
         }}
-        .table-container {{
+        .table-wrapper {{
             overflow-x: auto;
             margin-bottom: 30px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
         }}
         table {{
             width: 100%;
             border-collapse: collapse;
+            font-size: 12px;
             min-width: 600px;
-            font-size: 11px;
         }}
         th, td {{
             border: 1px solid #ddd;
-            padding: 6px;
+            padding: 8px;
             text-align: left;
-            white-space: nowrap;
         }}
         th {{
             background-color: #007bff;
             color: white;
             font-weight: bold;
             text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 10;
         }}
         tr:nth-child(even) {{
             background-color: #f9f9f9;
@@ -245,9 +232,6 @@ def write_html(results_by_day, start_date, end_date):
         .queue-name {{
             font-weight: bold;
             color: #333;
-            max-width: 200px;
-            word-wrap: break-word;
-            white-space: normal;
         }}
         .metric-value {{
             text-align: right;
@@ -262,60 +246,25 @@ def write_html(results_by_day, start_date, end_date):
             padding: 15px;
             border-radius: 5px;
             margin-bottom: 20px;
-            font-size: 0.9rem;
         }}
 
-        /* Mobile-specific styles */
         @media (max-width: 768px) {{
-            body {{
-                padding: 5px;
-            }}
-            .container {{
-                padding: 10px;
-            }}
-            h1 {{
-                font-size: 1.4rem;
-                margin-bottom: 15px;
-            }}
-            h2 {{
-                font-size: 1.1rem;
-                margin-top: 20px;
-            }}
-            table {{
-                font-size: 10px;
-                min-width: 500px;
-            }}
-            th, td {{
-                padding: 4px;
-            }}
-            .queue-name {{
-                max-width: 120px;
-                font-size: 9px;
-            }}
-            .summary {{
-                padding: 10px;
-                font-size: 0.8rem;
-            }}
+            body {{ margin: 5px; }}
+            .container {{ padding: 15px; }}
+            h1 {{ font-size: 1.5rem; }}
+            h2 {{ font-size: 1.2rem; }}
+            table {{ font-size: 11px; }}
+            th, td {{ padding: 6px; }}
         }}
 
         @media (max-width: 480px) {{
-            h1 {{
-                font-size: 1.2rem;
-            }}
-            h2 {{
-                font-size: 1rem;
-            }}
-            table {{
-                font-size: 9px;
-                min-width: 450px;
-            }}
-            th, td {{
-                padding: 3px;
-            }}
-            .queue-name {{
-                max-width: 100px;
-                font-size: 8px;
-            }}
+            body {{ margin: 2px; }}
+            .container {{ padding: 10px; }}
+            h1 {{ font-size: 1.3rem; }}
+            h2 {{ font-size: 1.1rem; }}
+            table {{ font-size: 10px; }}
+            th, td {{ padding: 4px; }}
+            .queue-name {{ font-size: 9px; }}
         }}
     </style>
 </head>
@@ -342,7 +291,7 @@ def write_html(results_by_day, start_date, end_date):
 
         html_content += f"""
         <h2>📅 {day.strftime('%d-%m-%Y')}</h2>
-        <div class="table-container">
+        <div class="table-wrapper">
             <table>
                 <thead>
                     <tr>
@@ -396,12 +345,12 @@ def write_email_html(results_by_day, start_date, end_date):
     else:
         title = f"SQS Report from {start_date.strftime('%d-%m-%Y')} to {end_date.strftime('%d-%m-%Y')}"
 
-    # Inline CSS for email compatibility with mobile responsiveness
+    # Simplified inline CSS for email compatibility
     email_html = f'''
-<div style="font-family: Arial, sans-serif; margin: 0; padding: 10px; background-color: #f5f5f5; line-height: 1.4;">
-    <div style="max-width: 1200px; margin: 0 auto; background-color: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-        <h1 style="color: #333; text-align: center; margin-bottom: 20px; font-size: 1.6rem;">{title}</h1>
-        <div style="background-color: #e9ecef; padding: 15px; border-radius: 5px; margin-bottom: 20px; font-size: 0.9rem;">
+<div style="font-family: Arial, sans-serif; margin: 10px; background-color: #f5f5f5;">
+    <div style="max-width: 1200px; margin: 0 auto; background-color: white; padding: 20px; border-radius: 8px;">
+        <h1 style="color: #333; text-align: center; margin-bottom: 30px;">{title}</h1>
+        <div style="background-color: #e9ecef; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
             <strong>Report Generated:</strong> {datetime.now(pytz.timezone('Asia/Kolkata')).strftime('%d-%m-%Y %H:%M:%S IST')}<br>
             <strong>Time Windows:</strong><br>
             • Window 1: 01:30 - 07:30 IST<br>
@@ -420,16 +369,16 @@ def write_email_html(results_by_day, start_date, end_date):
         })
 
         email_html += f'''
-        <h2 style="color: #555; border-bottom: 2px solid #007bff; padding-bottom: 5px; margin-top: 25px; font-size: 1.2rem;">📅 {day.strftime('%d-%m-%Y')}</h2>
-        <div style="overflow-x: auto; margin-bottom: 25px; border: 1px solid #ddd; border-radius: 5px;">
-            <table style="width: 100%; border-collapse: collapse; min-width: 500px; font-size: 11px;">
+        <h2 style="color: #555; border-bottom: 2px solid #007bff; padding-bottom: 5px; margin-top: 30px;">📅 {day.strftime('%d-%m-%Y')}</h2>
+        <div style="overflow-x: auto; margin-bottom: 30px;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 12px; min-width: 600px;">
                 <thead>
                     <tr>
 '''
 
         # Add table headers
         for col in df.columns:
-            email_html += f'                        <th style="border: 1px solid #ddd; padding: 6px; background-color: #007bff; color: white; font-weight: bold; text-align: center; white-space: nowrap;">{col}</th>\n'
+            email_html += f'                        <th style="border: 1px solid #ddd; padding: 8px; background-color: #007bff; color: white; font-weight: bold; text-align: center;">{col}</th>\n'
 
         email_html += '''                    </tr>
                 </thead>
@@ -443,11 +392,11 @@ def write_email_html(results_by_day, start_date, end_date):
             for col in df.columns:
                 value = row[col]
                 if col == 'Queue':
-                    email_html += f'                        <td style="border: 1px solid #ddd; padding: 6px; font-weight: bold; color: #333; max-width: 150px; word-wrap: break-word; white-space: normal; font-size: 10px;">{value}</td>\n'
+                    email_html += f'                        <td style="border: 1px solid #ddd; padding: 8px; font-weight: bold; color: #333;">{value}</td>\n'
                 elif isinstance(value, str) and value.startswith('Error:'):
-                    email_html += f'                        <td style="border: 1px solid #ddd; padding: 6px; color: #dc3545; font-style: italic; white-space: nowrap;">{value}</td>\n'
+                    email_html += f'                        <td style="border: 1px solid #ddd; padding: 8px; color: #dc3545; font-style: italic;">{value}</td>\n'
                 else:
-                    email_html += f'                        <td style="border: 1px solid #ddd; padding: 6px; text-align: right; font-family: monospace; white-space: nowrap;">{value}</td>\n'
+                    email_html += f'                        <td style="border: 1px solid #ddd; padding: 8px; text-align: right; font-family: monospace;">{value}</td>\n'
             email_html += "                    </tr>\n"
 
         email_html += '''                </tbody>
