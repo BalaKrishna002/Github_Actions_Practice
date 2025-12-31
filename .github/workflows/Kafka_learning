@@ -1,0 +1,55 @@
+name: Kafka Learning (3 Hours Max)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  kafka:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180   # ⏱️ HARD LIMIT: 3 hours
+
+    steps:
+      - name: Install Java
+        run: |
+          sudo apt update
+          sudo apt install -y openjdk-11-jdk
+
+      - name: Download Kafka
+        run: |
+          wget https://downloads.apache.org/kafka/3.6.1/kafka_2.13-3.6.1.tgz
+          tar -xzf kafka_2.13-3.6.1.tgz
+
+      - name: Configure Kafka for External Access
+        run: |
+          cat <<EOF >> kafka_2.13-3.6.1/config/server.properties
+          listeners=PLAINTEXT://0.0.0.0:9092
+          advertised.listeners=PLAINTEXT://localhost:9092
+          EOF
+
+      - name: Start Zookeeper
+        run: |
+          kafka_2.13-3.6.1/bin/zookeeper-server-start.sh -daemon kafka_2.13-3.6.1/config/zookeeper.properties
+
+      - name: Start Kafka
+        run: |
+          kafka_2.13-3.6.1/bin/kafka-server-start.sh -daemon kafka_2.13-3.6.1/config/server.properties
+
+      - name: Install ngrok
+        run: |
+          curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc
+          echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
+          sudo apt update && sudo apt install -y ngrok
+
+      - name: Start ngrok TCP Tunnel (Kafka)
+        env:
+          NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+        run: |
+          ngrok config add-authtoken "$NGROK_AUTH_TOKEN"
+          ngrok tcp 9092 > ngrok.log &
+          sleep 10
+          curl http://127.0.0.1:4040/api/tunnels
+
+      - name: Keep Kafka Alive (3 hours)
+        run: |
+          echo "Kafka is running and exposed via ngrok"
+          sleep 3h
